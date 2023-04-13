@@ -1,0 +1,182 @@
+{
+  "category": "CUSTOM",
+  "dashboardFilters": [
+    {
+      "filterType": "RESOURCE_LABEL",
+      "labelKey": "cluster",
+      "stringValue": "",
+      "templateVariable": "cluster"
+    },
+    {
+      "filterType": "RESOURCE_LABEL",
+      "labelKey": "namespace",
+      "templateVariable": "namespace"
+    }
+  ],
+  "displayName": "kube-namespace-views-v1",
+  "etag": "65dbbdbc589732114893daccaf3864d4",
+  "labels": {},
+  "mosaicLayout": {
+    "columns": 12,
+    "tiles": [
+      {
+        "height": 4,
+        "widget": {
+          "title": "CPU usage by Pod",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "sum(rate(container_cpu_usage_seconds_total{${cluster},${namespace}, image!=\"\"}[5m])) by (pod)"
+                }
+              }
+            ],
+            "thresholds": [],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 6,
+        "xPos": 0,
+        "yPos": 4
+      },
+      {
+        "height": 4,
+        "widget": {
+          "title": "Memory usage by Pod",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "plotType": "STACKED_AREA",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "sum(container_memory_working_set_bytes{${cluster},${namespace}, image!=\"\"}) by (pod)"
+                }
+              }
+            ],
+            "thresholds": [],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 6,
+        "xPos": 6,
+        "yPos": 4
+      },
+      {
+        "height": 2,
+        "widget": {
+          "scorecard": {
+            "gaugeView": {
+              "lowerBound": 0,
+              "upperBound": 100
+            },
+            "thresholds": [
+              {
+                "color": "RED",
+                "direction": "ABOVE",
+                "label": "",
+                "value": 90
+              },
+              {
+                "color": "YELLOW",
+                "direction": "ABOVE",
+                "label": "",
+                "value": 80
+              }
+            ],
+            "timeSeriesQuery": {
+              "prometheusQuery": "100*(sum(rate(container_cpu_usage_seconds_total{${cluster},${namespace}, image!=\"\"}[5m])) / sum(machine_cpu_cores))"
+            }
+          },
+          "title": "Namespace(s) usage on total cluster CPU in %"
+        },
+        "width": 6,
+        "xPos": 0,
+        "yPos": 0
+      },
+      {
+        "height": 2,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(rate(container_cpu_usage_seconds_total{${cluster},${namespace}}[5m]))"
+            }
+          },
+          "title": "Namespace(s) CPU Usage in cores"
+        },
+        "width": 6,
+        "xPos": 0,
+        "yPos": 2
+      },
+      {
+        "height": 2,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(container_memory_working_set_bytes{${cluster},${namespace}})"
+            }
+          },
+          "title": "Namespace(s) RAM Usage in bytes"
+        },
+        "width": 6,
+        "xPos": 6,
+        "yPos": 2
+      },
+      {
+        "height": 2,
+        "widget": {
+          "scorecard": {
+            "gaugeView": {
+              "lowerBound": 0,
+              "upperBound": 100
+            },
+            "thresholds": [
+              {
+                "color": "RED",
+                "direction": "ABOVE",
+                "label": "",
+                "value": 90
+              },
+              {
+                "color": "YELLOW",
+                "direction": "ABOVE",
+                "label": "",
+                "value": 80
+              }
+            ],
+            "timeSeriesQuery": {
+              "prometheusQuery": "100*(sum(container_memory_working_set_bytes{${cluster},${namespace}}) / sum(machine_memory_bytes))"
+            }
+          },
+          "title": "Namespace(s) usage on total cluster RAM in %"
+        },
+        "width": 6,
+        "xPos": 6,
+        "yPos": 0
+      }
+    ]
+  }
+}
