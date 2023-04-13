@@ -19,7 +19,6 @@
     }
   ],
   "displayName": "kube-state-metrics-v1",
-  "etag": "c67f27bf5a87e293f69b838c0ca1d2c0",
   "labels": {},
   "mosaicLayout": {
     "columns": 12,
