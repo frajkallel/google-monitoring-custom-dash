@@ -14,7 +14,6 @@
     }
   ],
   "displayName": "kube-namespace-views-v1",
-  "etag": "65dbbdbc589732114893daccaf3864d4",
   "labels": {},
   "mosaicLayout": {
     "columns": 12,
