@@ -1,0 +1,232 @@
+{
+  "category": "CUSTOM",
+  "dashboardFilters": [],
+  "displayName": "internal https lb",
+  "labels": {},
+  "mosaicLayout": {
+    "columns": 12,
+    "tiles": [
+      {
+        "height": 4,
+        "widget": {
+          "title": "Total request count per second",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "round(sum(irate(loadbalancing_googleapis_com:https_internal_request_count[1m])), 0.001)"
+                }
+              }
+            ],
+            "thresholds": [],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 6,
+        "xPos": 0,
+        "yPos": 0
+      },
+      {
+        "height": 4,
+        "widget": {
+          "title": "request count per second by backend",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "round(sum(irate(loadbalancing_googleapis_com:https_internal_request_count[1m])) by (backend_name), 0.001)"
+                }
+              }
+            ],
+            "thresholds": [],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 6,
+        "xPos": 6,
+        "yPos": 0
+      },
+      {
+        "height": 4,
+        "widget": {
+          "title": "Total Percentage Success Rate",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "(sum(rate(loadbalancing_googleapis_com:https_internal_request_count{response_code_class=\"200\"}[1m]))/ sum(rate(loadbalancing_googleapis_com:https_internal_request_count[1m])))*100 "
+                }
+              }
+            ],
+            "thresholds": [
+              {
+                "label": "",
+                "targetAxis": "Y1",
+                "value": 100
+              }
+            ],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 6,
+        "xPos": 0,
+        "yPos": 4
+      },
+      {
+        "height": 4,
+        "widget": {
+          "title": "Total 3xx response rate",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "(sum(rate(loadbalancing_googleapis_com:https_internal_request_count{response_code_class=\"300\"}[1m]))/ sum(rate(loadbalancing_googleapis_com:https_internal_request_count[1m])))*100 "
+                }
+              }
+            ],
+            "thresholds": [],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 6,
+        "xPos": 0,
+        "yPos": 8
+      },
+      {
+        "height": 4,
+        "widget": {
+          "title": "2xx response rate per backend",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "(sum(rate(loadbalancing_googleapis_com:https_internal_request_count{response_code_class=\"200\"}[1m])) by (backend_name)/ sum(rate(loadbalancing_googleapis_com:https_internal_request_count[1m])) by (backend_name))*100 "
+                }
+              }
+            ],
+            "thresholds": [
+              {
+                "label": "",
+                "targetAxis": "Y1",
+                "value": 100
+              }
+            ],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 6,
+        "xPos": 6,
+        "yPos": 4
+      },
+      {
+        "height": 4,
+        "widget": {
+          "title": "3xx response rate per backend",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "(sum(rate(loadbalancing_googleapis_com:https_internal_request_count{response_code_class=\"300\"}[1m])) by (backend_name)/ sum(rate(loadbalancing_googleapis_com:https_internal_request_count[1m])) by (backend_name))*100 "
+                }
+              }
+            ],
+            "thresholds": [],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 6,
+        "xPos": 6,
+        "yPos": 8
+      },
+      {
+        "height": 4,
+        "widget": {
+          "title": "99P backend latency per backend",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(0.99, sum(rate(loadbalancing_googleapis_com:https_internal_total_latencies_bucket[1m])) by (le, backend_name))"
+                }
+              }
+            ],
+            "thresholds": [
+              {
+                "label": "",
+                "targetAxis": "Y1",
+                "value": 1000
+              }
+            ],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 6,
+        "xPos": 0,
+        "yPos": 12
+      }
+    ]
+  }
+}
