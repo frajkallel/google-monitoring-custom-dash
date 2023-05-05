@@ -2,6 +2,7 @@
   "category": "CUSTOM",
   "dashboardFilters": [],
   "displayName": "internal https lb",
+  "etag": "0e4501686846f3370890bd928b33a1b0",
   "labels": {},
   "mosaicLayout": {
     "columns": 12,
@@ -26,7 +27,7 @@
             "thresholds": [],
             "timeshiftDuration": "0s",
             "yAxis": {
-              "label": "",
+              "label": "RPS",
               "scale": "LINEAR"
             }
           }
@@ -55,7 +56,7 @@
             "thresholds": [],
             "timeshiftDuration": "0s",
             "yAxis": {
-              "label": "",
+              "label": "RPS",
               "scale": "LINEAR"
             }
           }
@@ -90,7 +91,7 @@
             ],
             "timeshiftDuration": "0s",
             "yAxis": {
-              "label": "",
+              "label": "Percent",
               "scale": "LINEAR"
             }
           }
@@ -119,7 +120,7 @@
             "thresholds": [],
             "timeshiftDuration": "0s",
             "yAxis": {
-              "label": "",
+              "label": "Percent",
               "scale": "LINEAR"
             }
           }
@@ -154,7 +155,7 @@
             ],
             "timeshiftDuration": "0s",
             "yAxis": {
-              "label": "",
+              "label": "Percent",
               "scale": "LINEAR"
             }
           }
@@ -183,7 +184,7 @@
             "thresholds": [],
             "timeshiftDuration": "0s",
             "yAxis": {
-              "label": "",
+              "label": "Percent",
               "scale": "LINEAR"
             }
           }
@@ -218,7 +219,7 @@
             ],
             "timeshiftDuration": "0s",
             "yAxis": {
-              "label": "",
+              "label": "milliseconds",
               "scale": "LINEAR"
             }
           }
@@ -228,5 +229,6 @@
         "yPos": 12
       }
     ]
-  }
+  },
+  "name": "projects/96335476491/dashboards/db18b4fa-572a-46d5-ba37-b6fe25bb6212"
 }
