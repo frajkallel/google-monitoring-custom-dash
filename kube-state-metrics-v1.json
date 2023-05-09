@@ -13,8 +13,8 @@
       "templateVariable": "namespace"
     },
     {
-      "filterType": "node",
-      "labelKey": "name",
+      "filterType": "METRIC_LABEL",
+      "labelKey": "node",
       "templateVariable": "node"
     }
   ],
