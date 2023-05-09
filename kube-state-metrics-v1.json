@@ -232,7 +232,7 @@
             },
             "thresholds": [],
             "timeSeriesQuery": {
-              "prometheusQuery": "avg(compute_googleapis_com:instance_cpu_utilization)"
+              "prometheusQuery": "sum(kube_deployment_status_replicas_updated{${cluster},${namespace}})"
             }
           },
           "title": "Deployment Replicas - Updated"
