@@ -13,7 +13,7 @@
       "templateVariable": "namespace"
     },
     {
-      "filterType": "SYSTEM_METADATA_LABEL",
+      "filterType": "node",
       "labelKey": "name",
       "templateVariable": "node"
     }
