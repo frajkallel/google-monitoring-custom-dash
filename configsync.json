@@ -1,0 +1,353 @@
+{
+  "dashboardFilters": [],
+  "displayName": "configsync",
+  "labels": {},
+  "mosaicLayout": {
+    "columns": 48,
+    "tiles": [
+      {
+        "height": 8,
+        "widget": {
+          "scorecard": {
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(avg_over_time(config_sync_pipeline_error_observed{component=\"source\"}[${__interval}]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "Source Errors"
+        },
+        "width": 8,
+        "yPos": 8
+      },
+      {
+        "height": 8,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(avg_over_time(config_sync_pipeline_error_observed{component=\"rendering\"}[${__interval}]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "Rendering Errors"
+        },
+        "width": 8,
+        "xPos": 8,
+        "yPos": 8
+      },
+      {
+        "height": 8,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(avg_over_time(config_sync_pipeline_error_observed{component=\"sync\"}[${__interval}]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "Sync Errors"
+        },
+        "width": 8,
+        "xPos": 16,
+        "yPos": 8
+      },
+      {
+        "height": 8,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(avg_over_time(config_sync_kcc_resource_count{}[${__interval}]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "KCC Resouces"
+        },
+        "width": 8,
+        "xPos": 16,
+        "yPos": 16
+      },
+      {
+        "height": 8,
+        "widget": {
+          "scorecard": {
+            "blankView": {},
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(avg_over_time(config_sync_resource_count{}[${__interval}]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "Total Resources"
+        },
+        "width": 8,
+        "xPos": 33,
+        "yPos": 8
+      },
+      {
+        "height": 16,
+        "widget": {
+          "title": "Apply Operations per second",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "rate(config_sync_apply_operations_total{}[${__interval}])",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 20,
+        "yPos": 48
+      },
+      {
+        "height": 8,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(avg_over_time(config_sync_ready_resource_count{}[${__interval}]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "Ready Resources"
+        },
+        "width": 8,
+        "xPos": 24,
+        "yPos": 16
+      },
+      {
+        "height": 8,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(avg_over_time(config_sync_cluster_scoped_resource_count{}[${__interval}]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "Cluster Scoped"
+        },
+        "width": 8,
+        "yPos": 16
+      },
+      {
+        "height": 8,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(avg_over_time(config_sync_resource_ns_count{}[${__interval}]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "Namespaces"
+        },
+        "width": 8,
+        "xPos": 8,
+        "yPos": 16
+      },
+      {
+        "height": 8,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(avg_over_time(config_sync_reconciler_errors{component=\"source\"}[${__interval}]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "Reconciler Errors"
+        },
+        "width": 8,
+        "xPos": 24,
+        "yPos": 8
+      },
+      {
+        "height": 8,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(avg_over_time(config_sync_declared_resources{}[${__interval}]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "Declared Resources"
+        },
+        "width": 8,
+        "xPos": 33,
+        "yPos": 16
+      },
+      {
+        "height": 12,
+        "widget": {
+          "timeSeriesTable": {
+            "columnSettings": [
+              {
+                "column": "value",
+                "visible": false
+              }
+            ],
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "prometheusQuery": "avg_over_time(config_sync_resource_count{}[${__interval}])"
+                }
+              }
+            ],
+            "metricVisualization": "NUMBER"
+          },
+          "title": "Resource Count"
+        },
+        "width": 32,
+        "yPos": 24
+      },
+      {
+        "height": 16,
+        "widget": {
+          "title": "api_duration_seconds  [99TH PERCENTILE]",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "quantile by (operation,status)(0.99,delta(config_sync_api_duration_seconds_sum{}[${__interval}]))",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "timeshiftDuration": "0s",
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 20,
+        "xPos": 20,
+        "yPos": 48
+      },
+      {
+        "height": 12,
+        "widget": {
+          "timeSeriesTable": {
+            "columnSettings": [
+              {
+                "column": "value",
+                "visible": false
+              }
+            ],
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "prometheusQuery": "avg_over_time(config_sync_ready_resource_count{}[${__interval}])"
+                }
+              }
+            ],
+            "metricVisualization": "NUMBER"
+          },
+          "title": "Ready Resource Count"
+        },
+        "width": 32,
+        "yPos": 36
+      },
+      {
+        "height": 8,
+        "widget": {
+          "text": {
+            "content": "Filter by cluster to see per cluster status",
+            "format": "RAW",
+            "style": {
+              "backgroundColor": "",
+              "fontSize": "FONT_SIZE_UNSPECIFIED",
+              "horizontalAlignment": "H_LEFT",
+              "padding": "PADDING_SIZE_UNSPECIFIED",
+              "textColor": "",
+              "verticalAlignment": "V_TOP"
+            }
+          },
+          "title": "ConfigSync"
+        },
+        "width": 41
+      },
+      {
+        "height": 16,
+        "widget": {
+          "title": "Restart reconciler container 24h",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "changes(kube_pod_container_status_restarts_total{exported_container=\"reconciler\"}[1d])",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 24,
+        "yPos": 64
+      }
+    ]
+  }
+}
