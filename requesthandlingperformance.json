@@ -1,0 +1,347 @@
+{
+  "category": "CUSTOM",
+  "dashboardFilters": [
+    {
+      "filterType": "METRIC_LABEL",
+      "labelKey": "ingress",
+      "stringValue": "",
+      "templateVariable": "ingress"
+    }
+  ],
+  "displayName": "NGINX Ingress - Request Handling Performance",
+  "labels": {
+    "goog-imported-via-script": "",
+    "goog-imported-grafana-revision": "1",
+    "cloud-monitoring-dashboard-importer": "",
+    "goog-imported-grafana-file-name-perf": "",
+    "goog-imported-grafana-dashboard": "",
+    "goog-imported-grafana-id": "9614"
+  },
+  "mosaicLayout": {
+    "columns": 48,
+    "tiles": [
+      {
+        "height": 16,
+        "widget": {
+          "title": "Request Latency Percentiles",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": ".5",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(\n  0.5,\n  sum by (le)(\n    rate(\n      nginx_ingress_controller_request_duration_seconds_bucket{\n        ingress =~ \"${ingress.value}\"\n      }[5m]\n    )\n  )\n)",
+                  "unitOverride": ""
+                }
+              },
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": ".95",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(\n  0.95,\n  sum by (le)(\n    rate(\n    nginx_ingress_controller_request_duration_seconds_bucket{\n        ingress =~ \"${ingress.value}\"\n      }[5m]\n    )\n  )\n)",
+                  "unitOverride": ""
+                }
+              },
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": ".99",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(\n  0.99,\n  sum by (le)(\n    rate(\n      nginx_ingress_controller_request_duration_seconds_bucket{\n        ingress =~ \"${ingress.value}\"\n      }[5m]\n    )\n  )\n)",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 0,
+        "yPos": 0
+      },
+      {
+        "height": 16,
+        "widget": {
+          "title": "Upstream Response Latency Percentiles",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": ".5",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(\n  0.5,\n  sum by (le)(\n    rate(\n      nginx_ingress_controller_response_duration_seconds_bucket{\n        ingress =~ \"${ingress.value}\"\n      }[5m]\n    )\n  )\n)",
+                  "unitOverride": ""
+                }
+              },
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": ".95",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(\n  0.95,\n  sum by (le)(\n    rate(\n    nginx_ingress_controller_response_duration_seconds_bucket{\n        ingress =~ \"${ingress.value}\"\n      }[5m]\n    )\n  )\n)",
+                  "unitOverride": ""
+                }
+              },
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": ".99",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(\n  0.99,\n  sum by (le)(\n    rate(\n      nginx_ingress_controller_response_duration_seconds_bucket{\n        ingress =~ \"${ingress.value}\"\n      }[5m]\n    )\n  )\n)",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 24,
+        "yPos": 0
+      },
+      {
+        "height": 16,
+        "widget": {
+          "title": "Request Rate by Method and Path",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${labels.method} ${labels.host}${labels.path}",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "  sum by (method, host, path)(\n    rate(\n      nginx_ingress_controller_request_duration_seconds_count{\n        ingress =~ \"${ingress.value}\"\n      }[5m]\n    )\n  )\n",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 0,
+        "yPos": 16
+      },
+      {
+        "height": 16,
+        "widget": {
+          "title": "Median Upstream Response Time by Method and Path",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${labels.method} ${labels.host}${labels.path}",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(\n  .5,\n  sum by (le, method, host, path)(\n    rate(\n      nginx_ingress_controller_response_duration_seconds_bucket{\n        ingress =~ \"${ingress.value}\"\n      }[5m]\n    )\n  )\n)",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 24,
+        "yPos": 16
+      },
+      {
+        "height": 16,
+        "widget": {
+          "title": "Response Error Rate by Method and Path",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${labels.method} ${labels.host}${labels.path}",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "sum by (method, host, path) (rate(nginx_ingress_controller_request_duration_seconds_count{\n  ingress =~ \"${ingress.value}\",\n  status =~ \"[4-5].*\"\n}[5m])) / sum by (method, host, path) (rate(nginx_ingress_controller_request_duration_seconds_count{\n  ingress =~ \"${ingress.value}\",\n}[5m]))",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 0,
+        "yPos": 32
+      },
+      {
+        "height": 16,
+        "widget": {
+          "title": "Upstream Response Time by Method and Path",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${labels.method} ${labels.host}${labels.path}",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "sum by (method, host, path) (rate(nginx_ingress_controller_response_duration_seconds_sum{ingress =~ \"${ingress.value}\"}[5m]))",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 24,
+        "yPos": 32
+      },
+      {
+        "height": 16,
+        "widget": {
+          "title": "Response Error Rate by Method and Path",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${labels.method} ${labels.host}${labels.path} ${labels.status}",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "  sum (\n    rate(\n      nginx_ingress_controller_request_duration_seconds_count{\n        ingress =~ \"${ingress.value}\",\n        status =~\"[4-5].*\",\n      }[5m]\n    )\n  ) by(method, host, path, status)\n",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 0,
+        "yPos": 48
+      },
+      {
+        "height": 16,
+        "widget": {
+          "title": "Average Response Size by Method and Path",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${labels.method} ${labels.host}${labels.path}",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "sum (\n  rate (\n      nginx_ingress_controller_response_size_sum {\n        ingress =~ \"${ingress.value}\",\n      }[5m]\n  )\n)  by (method, host, path) / sum (\n  rate(\n      nginx_ingress_controller_response_size_count {\n        ingress =~ \"${ingress.value}\",\n      }[5m]\n  )\n) by (method, host, path)\n",
+                  "unitOverride": ""
+                }
+              },
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${labels.le}",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "    sum (rate(nginx_ingress_controller_response_size_bucket{\n        ingress =~ \"${ingress.value}\",\n    }[5m])) by (le)\n",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 24,
+        "yPos": 48
+      },
+      {
+        "height": 16,
+        "widget": {
+          "title": "Upstream Service Latency",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "average",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "sum (\n  rate(\n      nginx_ingress_controller_ingress_upstream_latency_seconds_sum {\n        ingress =~ \"${ingress.value}\",\n      }[5m]\n)) / sum (\n  rate(\n      nginx_ingress_controller_ingress_upstream_latency_seconds_count {\n        ingress =~ \"${ingress.value}\",\n      }[5m]\n  )\n)\n",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 0,
+        "yPos": 64
+      }
+    ]
+  },
+  "name": "projects/525645791515/dashboards/c20b3661-4bd0-4487-b452-28ff87f92cb6"
+}

@@ -1,0 +1,402 @@
+{
+  "category": "CUSTOM",
+  "dashboardFilters": [
+    {
+      "filterType": "METRIC_LABEL",
+      "labelKey": "controller_namespace",
+      "stringValue": "",
+      "templateVariable": "namespace"
+    },
+    {
+      "filterType": "METRIC_LABEL",
+      "labelKey": "controller_class",
+      "stringValue": "",
+      "templateVariable": "controller_class"
+    },
+    {
+      "filterType": "METRIC_LABEL",
+      "labelKey": "controller_pod",
+      "stringValue": "",
+      "templateVariable": "controller"
+    },
+    {
+      "filterType": "METRIC_LABEL",
+      "labelKey": "ingress",
+      "stringValue": "",
+      "templateVariable": "ingress"
+    }
+  ],
+  "displayName": "NGINX Ingress controller",
+  "labels": {
+    "goog-imported-via-script": "",
+    "goog-imported-grafana-revision": "1",
+    "cloud-monitoring-dashboard-importer": "",
+    "goog-imported-grafana-dashboard": "",
+    "goog-imported-grafana-file-name-nginx": ""
+  },
+  "mosaicLayout": {
+    "columns": 48,
+    "tiles": [
+      {
+        "height": 6,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "round(sum(irate(nginx_ingress_controller_requests{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",namespace=~\"${namespace.value}\"}[2m])), 0.001)",
+              "unitOverride": ""
+            }
+          },
+          "title": "Controller Request Volume"
+        },
+        "width": 12,
+        "xPos": 0,
+        "yPos": 0
+      },
+      {
+        "height": 6,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(avg_over_time(nginx_ingress_controller_nginx_process_connections{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",controller_namespace=~\"${namespace.value}\",state=\"active\"}[2m]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "Controller Connections"
+        },
+        "width": 12,
+        "xPos": 12,
+        "yPos": 0
+      },
+      {
+        "height": 6,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "sum(rate(nginx_ingress_controller_requests{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",namespace=~\"${namespace.value}\",status!~\"[4-5].*\"}[2m])) / sum(rate(nginx_ingress_controller_requests{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",namespace=~\"${namespace.value}\"}[2m]))",
+              "unitOverride": ""
+            }
+          },
+          "title": "Controller Success Rate (non-4|5xx responses)"
+        },
+        "width": 12,
+        "xPos": 24,
+        "yPos": 0
+      },
+      {
+        "height": 6,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "avg(irate(nginx_ingress_controller_success{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",controller_namespace=~\"${namespace.value}\"}[1m])) * 60",
+              "unitOverride": ""
+            }
+          },
+          "title": "Config Reloads"
+        },
+        "width": 6,
+        "xPos": 36,
+        "yPos": 0
+      },
+      {
+        "height": 6,
+        "widget": {
+          "scorecard": {
+            "sparkChartView": {
+              "sparkChartType": "SPARK_LINE"
+            },
+            "thresholds": [],
+            "timeSeriesQuery": {
+              "prometheusQuery": "count(nginx_ingress_controller_config_last_reload_successful{controller_pod=~\"${controller.value}\",controller_namespace=~\"${namespace.value}\"} == 0)",
+              "unitOverride": ""
+            }
+          },
+          "title": "Last Config Failed"
+        },
+        "width": 6,
+        "xPos": 42,
+        "yPos": 0
+      },
+      {
+        "height": 14,
+        "widget": {
+          "title": "Ingress Request Volume",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${labels.ingress}",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "round(sum(irate(nginx_ingress_controller_requests{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",controller_namespace=~\"${namespace.value}\",ingress=~\"${ingress.value}\"}[2m])) by (ingress), 0.001)",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 0,
+        "yPos": 6
+      },
+      {
+        "height": 14,
+        "widget": {
+          "title": "Ingress Success Rate (non-4|5xx responses)",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${labels.ingress}",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "sum(rate(nginx_ingress_controller_requests{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",namespace=~\"${namespace.value}\",ingress=~\"${ingress.value}\",status!~\"[4-5].*\"}[2m])) by (ingress) / sum(rate(nginx_ingress_controller_requests{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",namespace=~\"${namespace.value}\",ingress=~\"${ingress.value}\"}[2m])) by (ingress)",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 24,
+        "yPos": 6
+      },
+      {
+        "height": 12,
+        "widget": {
+          "title": "Network I/O pressure",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "Received",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "sum (irate (nginx_ingress_controller_request_size_sum{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",controller_namespace=~\"${namespace.value}\"}[2m]))",
+                  "unitOverride": ""
+                }
+              },
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "Sent",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "- sum (irate (nginx_ingress_controller_response_size_sum{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",controller_namespace=~\"${namespace.value}\"}[2m]))",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 16,
+        "xPos": 0,
+        "yPos": 20
+      },
+      {
+        "height": 12,
+        "widget": {
+          "title": "Average Memory Usage",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "nginx",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "avg(nginx_ingress_controller_nginx_process_resident_memory_bytes{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",controller_namespace=~\"${namespace.value}\"}) ",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 16,
+        "xPos": 16,
+        "yPos": 20
+      },
+      {
+        "height": 12,
+        "widget": {
+          "title": "Average CPU Usage",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "nginx",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "avg (rate (nginx_ingress_controller_nginx_process_cpu_seconds_total{controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",controller_namespace=~\"${namespace.value}\"}[2m])) ",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 16,
+        "xPos": 32,
+        "yPos": 20
+      },
+      {
+        "height": 16,
+        "widget": {
+          "timeSeriesTable": {
+            "columnSettings": [
+              {
+                "column": "value",
+                "visible": false
+              }
+            ],
+            "dataSets": [
+              {
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(0.50, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{ingress!=\"\",controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",controller_namespace=~\"${namespace.value}\",ingress=~\"${ingress.value}\"}[2m])) by (le, ingress))"
+                }
+              }
+            ],
+            "metricVisualization": "NUMBER"
+          },
+          "title": "Ingress Percentile Response Times and Transfer Rates"
+        },
+        "width": 48,
+        "xPos": 0,
+        "yPos": 32
+      },
+      {
+        "height": 14,
+        "widget": {
+          "title": "Ingress Percentile Response Times",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "P80",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(0.80, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{ingress!=\"\",controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",controller_namespace=~\"${namespace.value}\",ingress=~\"${ingress.value}\"}[2m])) by (le))",
+                  "unitOverride": ""
+                }
+              },
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "P90",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(0.90, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{ingress!=\"\",controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",controller_namespace=~\"${namespace.value}\",ingress=~\"${ingress.value}\"}[2m])) by (le))",
+                  "unitOverride": ""
+                }
+              },
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "P99",
+                "measures": [],
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "histogram_quantile(0.99, sum(rate(nginx_ingress_controller_request_duration_seconds_bucket{ingress!=\"\",controller_pod=~\"${controller.value}\",controller_class=~\"${controller_class.value}\",controller_namespace=~\"${namespace.value}\",ingress=~\"${ingress.value}\"}[2m])) by (le))",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": []
+          }
+        },
+        "width": 24,
+        "xPos": 0,
+        "yPos": 48
+      },
+      {
+        "height": 14,
+        "widget": {
+          "title": "Ingress Request Latency Heatmap",
+          "xyChart": {
+            "chartOptions": {
+              "mode": "COLOR"
+            },
+            "dataSets": [
+              {
+                "plotType": "LINE",
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "prometheusQuery": "sum(increase(nginx_ingress_controller_request_duration_seconds_bucket{ingress!=\"\",controller_pod=~\".+\",controller_class=~\".+\",controller_namespace=~\".+\",ingress=~\".+\"}[2m])) by (le)",
+                  "unitOverride": ""
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        },
+        "width": 24,
+        "xPos": 24,
+        "yPos": 48
+      }
+    ]
+  },
+  "name": "projects/525645791515/dashboards/b4e59ad7-199c-4b43-b4e1-b7d0d6d5e444"
+}
