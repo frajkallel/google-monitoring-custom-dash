@@ -1,0 +1,340 @@
+{
+  "displayName": "Spring Boot Golden Signals",
+  "dashboardFilters": [
+    {
+      "filterType": "METRIC_LABEL",
+      "labelKey": "pod",
+      "stringValue": "",
+      "templateVariable": "pod",
+      "valueType": "STRING"
+    }
+  ],
+  "description": "Enterprise-grade Golden Signals for Spring Boot via GMP.",
+  "labels": {
+    "environment": "production",
+    "stack": "spring-boot-gke-gmp",
+    "team": "sre"
+  },
+  "mosaicLayout": {
+    "columns": 48,
+    "tiles": [
+      {
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Spring Boot RPS by URI & Method (Top 10)",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${metric.labels.method} ${metric.labels.uri}",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "STACKED_AREA",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "prometheusQuery": "topk(10, sum(rate(http_server_requests_seconds_count{uri!~\".*actuator.*|.*prometheus.*\", pod=~\"${pod.value}\"}[5m])) by (uri, method))",
+                  "unitOverride": "1/s"
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "req/s",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "xPos": 24,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Request Latency p99 by URI",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "p99 ${metric.labels.uri}",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "prometheusQuery": "histogram_quantile(0.99, sum(rate(http_server_requests_seconds_bucket{uri!~\".*actuator.*|.*prometheus.*\", pod=~\"${pod.value}\"}[5m])) by (le, uri))",
+                  "unitOverride": "s"
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "seconds",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 16,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "Error % by URI (5xx & 4xx)",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "5xx ${metric.labels.uri}",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "prometheusQuery": "(100 * sum(rate(http_server_requests_seconds_count{status=~\"5..\", uri!~\".*actuator.*|.*prometheus.*\", pod=~\"${pod.value}\"}[5m])) by (uri) / sum(rate(http_server_requests_seconds_count{uri!~\".*actuator.*|.*prometheus.*\", pod=~\"${pod.value}\"}[5m])) by (uri)) > 0",
+                  "unitOverride": "%"
+                }
+              },
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "4xx ${metric.labels.uri}",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y2",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "prometheusQuery": "(100 * sum(rate(http_server_requests_seconds_count{status=~\"4..\", uri!~\".*actuator.*|.*prometheus.*\", pod=~\"${pod.value}\"}[5m])) by (uri) / sum(rate(http_server_requests_seconds_count{uri!~\".*actuator.*|.*prometheus.*\", pod=~\"${pod.value}\"}[5m])) by (uri)) > 0",
+                  "unitOverride": "%"
+                }
+              }
+            ],
+            "thresholds": [],
+            "y2Axis": {
+              "label": "4xx %",
+              "scale": "LINEAR"
+            },
+            "yAxis": {
+              "label": "5xx %",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 16,
+        "xPos": 24,
+        "height": 16,
+        "width": 24,
+        "widget": {
+          "title": "CPU Process Usage %",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${metric.labels.pod}",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "prometheusQuery": "100 * sum(rate(process_cpu_usage{pod=~\"${pod.value}\"}[5m])) by (pod)",
+                  "unitOverride": "%"
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "%",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 32,
+        "height": 16,
+        "width": 16,
+        "widget": {
+          "title": "JVM Heap Utilization %",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${metric.labels.pod}",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "prometheusQuery": "100 * sum(jvm_memory_used_bytes{area=\"heap\", pod=~\"${pod.value}\"}) by (pod) / sum(jvm_memory_max_bytes{area=\"heap\", pod=~\"${pod.value}\"}) by (pod)",
+                  "unitOverride": "%"
+                }
+              }
+            ],
+            "thresholds": [
+              {
+                "color": "COLOR_UNSPECIFIED",
+                "direction": "DIRECTION_UNSPECIFIED",
+                "label": "Warning",
+                "targetAxis": "TARGET_AXIS_UNSPECIFIED",
+                "value": 75
+              },
+              {
+                "color": "COLOR_UNSPECIFIED",
+                "direction": "DIRECTION_UNSPECIFIED",
+                "label": "Critical",
+                "targetAxis": "TARGET_AXIS_UNSPECIFIED",
+                "value": 90
+              }
+            ],
+            "yAxis": {
+              "label": "%",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 32,
+        "xPos": 16,
+        "height": 16,
+        "width": 16,
+        "widget": {
+          "title": "JVM Heap Used vs Max",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${metric.labels.pod} used",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "STACKED_AREA",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "prometheusQuery": "sum(jvm_memory_used_bytes{area=\"heap\", pod=~\"${pod.value}\"}) by (pod)",
+                  "unitOverride": "By"
+                }
+              },
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${metric.labels.pod} max",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "prometheusQuery": "sum(jvm_memory_max_bytes{area=\"heap\", pod=~\"${pod.value}\"}) by (pod)",
+                  "unitOverride": "By"
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "bytes",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      },
+      {
+        "yPos": 32,
+        "xPos": 32,
+        "height": 16,
+        "width": 16,
+        "widget": {
+          "title": "JVM Max GC Pause Duration",
+          "id": "",
+          "xyChart": {
+            "chartOptions": {
+              "displayHorizontal": false,
+              "mode": "COLOR",
+              "showLegend": false
+            },
+            "dataSets": [
+              {
+                "breakdowns": [],
+                "dimensions": [],
+                "legendTemplate": "${metric.labels.pod} (${metric.labels.action})",
+                "measures": [],
+                "minAlignmentPeriod": "60s",
+                "plotType": "LINE",
+                "sort": [],
+                "targetAxis": "Y1",
+                "timeSeriesQuery": {
+                  "outputFullDuration": false,
+                  "prometheusQuery": "max(jvm_gc_pause_seconds_max{pod=~\"${pod.value}\"}) by (pod, action)",
+                  "unitOverride": "s"
+                }
+              }
+            ],
+            "thresholds": [],
+            "yAxis": {
+              "label": "",
+              "scale": "LINEAR"
+            }
+          }
+        }
+      }
+    ]
+  }
+}
